@@ -1,6 +1,7 @@
-package com.neurowvu.security;
+package com.neurowvu.controllers;
 
 import com.neurowvu.repositories.UserRepository;
+import com.neurowvu.security.RegistrationForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
