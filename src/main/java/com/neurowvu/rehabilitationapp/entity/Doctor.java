@@ -1,4 +1,4 @@
-package com.neurowvu.entity;
+package com.neurowvu.rehabilitationapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +24,10 @@ public class Doctor {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @OneToOne()
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 
     @OneToMany(targetEntity = Patient.class)
     public List<Patient> patientList;

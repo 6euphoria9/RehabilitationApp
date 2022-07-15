@@ -1,9 +1,8 @@
-package com.neurowvu.entity;
+package com.neurowvu.rehabilitationapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -19,7 +18,8 @@ public class Metric {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "task_id")
-    @OneToOne(targetEntity = Task.class)
+    //@Column(name = "task_id")
+    @OneToOne()
+    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     private Task task;
 }

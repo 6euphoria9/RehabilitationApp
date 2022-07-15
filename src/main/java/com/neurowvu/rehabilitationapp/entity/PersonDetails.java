@@ -1,4 +1,4 @@
-package com.neurowvu.entity;
+package com.neurowvu.rehabilitationapp.entity;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -19,7 +19,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor(access = AccessLevel.PUBLIC, force=true)
 @RequiredArgsConstructor
-public class User implements UserDetails {
+public class PersonDetails implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

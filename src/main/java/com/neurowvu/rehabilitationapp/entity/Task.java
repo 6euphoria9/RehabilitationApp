@@ -1,4 +1,4 @@
-package com.neurowvu.entity;
+package com.neurowvu.rehabilitationapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

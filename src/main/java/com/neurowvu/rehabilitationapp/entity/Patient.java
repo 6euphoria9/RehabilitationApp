@@ -1,9 +1,8 @@
-package com.neurowvu.entity;
+package com.neurowvu.rehabilitationapp.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
@@ -31,7 +30,11 @@ public class Patient {
     @Column
     private String city;
 
-    @Column(name = "doctor_id")
     @ManyToOne(targetEntity = Doctor.class)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
+
+    @OneToOne()
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 }

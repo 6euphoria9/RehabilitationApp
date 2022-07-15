@@ -1,6 +1,6 @@
-package com.neurowvu.repositories;
+package com.neurowvu.rehabilitationapp.repositories;
 
-import com.neurowvu.entity.Patient;
+import com.neurowvu.rehabilitationapp.entity.Patient;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

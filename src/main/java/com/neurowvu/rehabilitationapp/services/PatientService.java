@@ -1,16 +1,16 @@
-package com.neurowvu.services;
+package com.neurowvu.rehabilitationapp.services;
 
-import com.neurowvu.repositories.PatientRepository;
+import com.neurowvu.rehabilitationapp.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PatientServiceImpl implements PatientService{
+public class PatientService {
 
     PatientRepository patientRepository;
 
     @Autowired
-    public PatientServiceImpl(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 }
