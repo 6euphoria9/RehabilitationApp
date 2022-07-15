@@ -1,7 +1,7 @@
-package com.neurowvu.mapper;
+package com.neurowvu.rehabilitationapp.mapper;
 
-import com.neurowvu.dto.PatientDTO;
-import com.neurowvu.entity.Patient;
+import com.neurowvu.rehabilitationapp.dto.PatientDTO;
+import com.neurowvu.rehabilitationapp.entity.Patient;
 import org.springframework.stereotype.Component;
 
 @Component

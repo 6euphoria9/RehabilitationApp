@@ -1,4 +1,4 @@
-package com.neurowvu.dto;
+package com.neurowvu.rehabilitationapp.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
