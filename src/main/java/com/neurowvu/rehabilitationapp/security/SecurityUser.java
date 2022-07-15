@@ -52,6 +52,9 @@ public class SecurityUser implements UserDetails {
         return true;
     }
 
+    public User getUser(){
+        return this.user;
+    }
 //    public static UserDetails fromUser(User user) {
 //        return new org.springframework.security.core.userdetails.User(
 //                user.getUsername(), user.getPassword(), true, true, true, true, null

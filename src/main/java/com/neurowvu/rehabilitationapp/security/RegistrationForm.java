@@ -1,6 +1,6 @@
 package com.neurowvu.rehabilitationapp.security;
 
-import com.neurowvu.rehabilitationapp.entity.PersonDetails;
+import com.neurowvu.rehabilitationapp.entity.User;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,9 +13,8 @@ public class RegistrationForm {
     private String state;
     private String phoneNumber;
 
-    public PersonDetails toUser(PasswordEncoder passwordEncoder) {
-        return new PersonDetails(
-                username, passwordEncoder.encode(password),
-                fullname, address, state, phoneNumber);
+    public SecurityUser toUser(PasswordEncoder passwordEncoder) {
+        return new SecurityUser(
+                new User());//todo
     }
 }

@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>DOCTOR</title>
+    <title>DOCTOR's CABINET</title>
 </head>
 <body>
-This is doctor's cabinet
+<p th:text="'Welcome '+${doctor_name}+'! '"></p>
+<br/>
+<p>How are you? :)</p>
+<br/>
+
+<span th:if="${patients}">
+    <a>This is your patients:</a>
+    <hr/>
+<div th:each="patient : ${patients}">
+    <a th:text="${patient.firstName+' '+patient.lastName}"></a>
+    <br/>
+    <a th:text="${'Live in the'+patient.city+', on the '+patient.address}"></a>
+    <br/>
+</div>
+    <hr/>
+</span>
+
 </body>
 </html>

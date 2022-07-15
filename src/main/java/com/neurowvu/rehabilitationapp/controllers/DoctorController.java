@@ -1,10 +1,18 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
+import com.neurowvu.rehabilitationapp.entity.Doctor;
+import com.neurowvu.rehabilitationapp.entity.Patient;
+import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
+import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +32,18 @@ public class DoctorController {
     }
 
     @GetMapping("/cabinet")
-    public String doctorsCabinet(){
+    public String doctorsCabinet(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+
+        Doctor doctor = user.getDoctor();
+        model.addAttribute("doctor_name",
+                doctor.getFirstName() + " " + doctor.getLastName());
+
+        List<PatientDTO> patients = doctor.getPatientList().stream().map(patientMapper::mapToPatientDTO).collect(Collectors.toList());
+        model.addAttribute("patients", patients);
+
         return "doctor/cabinet";
     }
 

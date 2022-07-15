@@ -31,7 +31,7 @@ public class Doctor {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @OneToMany(targetEntity = Patient.class)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
     public List<Patient> patientList;
 
 

@@ -30,7 +30,7 @@ public class Patient {
     @Column
     private String city;
 
-    @ManyToOne(targetEntity = Doctor.class)
+    @ManyToOne()
     @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
 
