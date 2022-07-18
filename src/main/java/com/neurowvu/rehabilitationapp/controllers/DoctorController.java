@@ -2,12 +2,11 @@ package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
 import com.neurowvu.rehabilitationapp.entity.Doctor;
-import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.User;
+import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,11 +23,13 @@ public class DoctorController {
 
     private final DoctorService doctorService;
     private final PatientMapper patientMapper;
+    private final DoctorMapper doctorMapper;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientMapper patientMapper) {
+    public DoctorController(DoctorService doctorService, PatientMapper patientMapper, DoctorMapper doctorMapper) {
         this.doctorService = doctorService;
         this.patientMapper = patientMapper;
+        this.doctorMapper = doctorMapper;
     }
 
     @GetMapping("/cabinet")
@@ -46,13 +47,6 @@ public class DoctorController {
 
         return "doctor/cabinet";
     }
-
-    @PostMapping("/registrate")
-    public String registration() {//todo здесь надо будет из формы вытягивать инфу и лепить доктора
-        //doctorService.registration(doctorDTO);
-        return "login";
-    }
-
     @GetMapping("/doctor/{doctorId}/patient")
     public List<PatientDTO> getPatientList(@PathVariable Long doctorId) {
         List<PatientDTO> patients = doctorService.getPatientListByDoctorId(doctorId)

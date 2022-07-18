@@ -3,6 +3,7 @@ package com.neurowvu.rehabilitationapp.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user", schema = "public")
 @NoArgsConstructor
+@Accessors(chain = true)
 public class User {
 
     @Id

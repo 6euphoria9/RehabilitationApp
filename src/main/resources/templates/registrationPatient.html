@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>REGISTRATION</title>
+</head>
+
+<body>
+<div class="container">
+    <h1>Registration Patient</h1>
+
+    <form class="form-signin" method="post" th:action="@{/auth/registration/patient}" th:object="${form}">
+
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>Password</label>
+            <input type="password" th:field="*{password}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>Password Confirm</label>
+            <input type="password" th:field="*{confirmPassword}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>First Name</label>
+            <input type="text" th:field="*{firstName}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>Last Name</label>
+            <input type="text" th:field="*{lastName}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>Address</label>
+            <input type="text" th:field="*{address}" class="form-control">
+        </div>
+        <div class="form_group">
+            <label>City</label>
+            <input type="text" th:field="*{city}" class="form-control">
+        </div>
+
+        <div class="col-lg-3" th:object="${form}">
+            <select class="form-control" th:field="*{doctorId}">
+                <option value="">Select your doctor</option>
+                <option th:each="dc : ${doctors}"
+                        th:value="${dc.Id}"
+                        th:text="${dc.firstName}+' '+${dc.lastName}"></option>
+            </select>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </form>
+
+</div>
+
+<div class="container signin">
+    <p>Already have an account? <a href="/auth/login">Sign in</a>.</p>
+</div>
+</body>
+
+</html>
