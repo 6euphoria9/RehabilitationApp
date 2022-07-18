@@ -32,6 +32,7 @@ public class PatientService {
 
     public void registration(RegistrationPatientForm form) {
         User user = userMapper.mapPatientFormToUser(form);
+        userRepository.save(user);
         Patient patient = patientMapper.formToPatient(form);
         patient.setUser(user);
         patientRepository.save(patient);

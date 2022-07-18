@@ -36,7 +36,7 @@ public class Patient {
     @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 }
