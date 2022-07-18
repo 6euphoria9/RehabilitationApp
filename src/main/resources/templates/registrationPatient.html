@@ -44,7 +44,7 @@
             <select class="form-control" th:field="*{doctorId}">
                 <option value="">Select your doctor</option>
                 <option th:each="dc : ${doctors}"
-                        th:value="${dc.Id}"
+                        th:value="${dc.id}"
                         th:text="${dc.firstName}+' '+${dc.lastName}"></option>
             </select>
         </div>

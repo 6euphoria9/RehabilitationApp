@@ -16,6 +16,7 @@ public class DoctorMapper {
 
     public DoctorDTO mapToDoctorDTO(Doctor doctor) {
         return new DoctorDTO()
+                .setId(doctor.getId())
                 .setFirstName(doctor.getFirstName())
                 .setLastName(doctor.getLastName());
     }

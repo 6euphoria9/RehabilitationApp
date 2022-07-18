@@ -58,7 +58,8 @@ public class AuthController {
                 .stream()
                 .map(doctorMapper::mapToDoctorDTO)
                 .toList();
-
+        System.out.println("DOCTORS");
+        doctors.forEach(System.out::println);
         model.addAttribute("doctors", doctors);
 
         return "registrationPatient";
@@ -66,17 +67,14 @@ public class AuthController {
 
     @PostMapping("/registration/patient")
     public String registrationPatientDone(@ModelAttribute("form") RegistrationPatientForm form) {
+        System.out.println(form);
         patientService.registration(form);
         return "redirect:/auth/login";
     }
 
-    @GetMapping("/registration/doctor")
-    public String registrationDoctor(@ModelAttribute("form") RegistrationDoctorForm form) {
-        return "registrationDoctor";
-    }
-    @PostMapping("/registration/doctor")
-    public String registrationDoctorDone(@ModelAttribute("form") RegistrationDoctorForm form) {//todo здесь надо будет из формы вытягивать инфу и лепить доктора
-        doctorService.registration(form);
-        return "redirect:/auth/login";
-    }
+//    @PostMapping
+//    public String processRegistration(RegistrationForm form) {
+//        //userRepository.save(form.toUser(passwordEncoder));
+//        return "redirect:/login";
+//    }
 }
