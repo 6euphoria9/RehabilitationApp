@@ -42,4 +42,8 @@ public class PatientService {
         patient.setDoctor(doctor);
         patientRepository.save(patient);
     }
+
+    public Patient getById(Long id) {
+        return patientRepository.findById(id).get();
+    }
 }

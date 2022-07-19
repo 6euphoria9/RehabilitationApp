@@ -18,6 +18,7 @@ public class PatientMapper {
 
     public PatientDTO mapToPatientDTO(Patient patient) {
         return new PatientDTO()
+                .setId(patient.getId())
                 .setFirstName(patient.getFirstName())
                 .setLastName(patient.getLastName())
                 .setAddress(patient.getAddress())

@@ -1,12 +1,15 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
+import com.neurowvu.rehabilitationapp.dto.Container;
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
 import com.neurowvu.rehabilitationapp.entity.Doctor;
+import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
+import com.neurowvu.rehabilitationapp.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +25,14 @@ import java.util.stream.Collectors;
 public class DoctorController {
 
     private final DoctorService doctorService;
+    private final PatientService patientService;
     private final PatientMapper patientMapper;
     private final DoctorMapper doctorMapper;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientMapper patientMapper, DoctorMapper doctorMapper) {
+    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper) {
         this.doctorService = doctorService;
+        this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
     }
@@ -45,8 +50,20 @@ public class DoctorController {
         List<PatientDTO> patients = doctor.getPatientList().stream().map(patientMapper::mapToPatientDTO).collect(Collectors.toList());
         model.addAttribute("patients", patients);
 
+        Container container = new Container();
+        model.addAttribute("container", container);
+
         return "doctor/cabinet";
     }
+
+    @PostMapping("/cabinet/patient")
+    public String getPatientX(Model model, @ModelAttribute("container") Container c){
+        Patient patient = patientService.getById(c.getContainerId());
+        model.addAttribute("patient", patient);
+        return "doctor/patient";
+    }
+
+
     @GetMapping("/doctor/{doctorId}/patient")
     public List<PatientDTO> getPatientList(@PathVariable Long doctorId) {
         List<PatientDTO> patients = doctorService.getPatientListByDoctorId(doctorId)
