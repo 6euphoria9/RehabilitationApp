@@ -3,12 +3,16 @@ package com.neurowvu.rehabilitationapp.controllers;
 import com.neurowvu.rehabilitationapp.dto.DoctorDTO;
 import com.neurowvu.rehabilitationapp.dto.RegistrationPatientForm;
 import com.neurowvu.rehabilitationapp.entity.Doctor;
+import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.dto.RegistrationDoctorForm;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
 import com.neurowvu.rehabilitationapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -41,9 +46,16 @@ public class AuthController {
         return "login";
     }
 
+//    @GetMapping("/success")
+//    public String success(){
+//        return "success";
+//    }
+
     @GetMapping("/success")
-    public String success(){
-        return "success";
+    public String successRedirect() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserByUsername(auth.getName()).get();
+        return user.getRole().equals("ROLE_DOCTOR") ? "redirect:/doctor/cabinet" : "redirect:/patient/cabinet";
     }
 
 
@@ -69,6 +81,16 @@ public class AuthController {
     public String registrationPatientDone(@ModelAttribute("form") RegistrationPatientForm form) {
         System.out.println(form);
         patientService.registration(form);
+        return "redirect:/auth/login";
+    }
+
+    @GetMapping("/registration/doctor")
+    public String registrationDoctor(@ModelAttribute("form") RegistrationDoctorForm form) {
+        return "registrationDoctor";
+    }
+    @PostMapping("/registration/doctor")
+    public String registrationDoctorDone(@ModelAttribute("form") RegistrationDoctorForm form) {
+        doctorService.registration(form);
         return "redirect:/auth/login";
     }
 

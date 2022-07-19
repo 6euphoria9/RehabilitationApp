@@ -29,8 +29,7 @@ public class PatientMapper {
                 .setFirstName(form.getFirstName())
                 .setLastName(form.getLastName())
                 .setAddress(form.getAddress())
-                .setCity(form.getCity())
-                .setDoctor(doctorService.getById(form.getDoctorId()));
+                .setCity(form.getCity());
     }
 
 }
