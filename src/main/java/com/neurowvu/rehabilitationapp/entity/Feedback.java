@@ -1,10 +1,13 @@
 package com.neurowvu.rehabilitationapp.entity;
 
+import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Table(name = "feedback")
 @Entity
@@ -30,6 +33,10 @@ public class Feedback {
     @OneToOne()
     @JoinColumn(name = "metric_id", referencedColumnName = "metric_id")
     Metric metric;
+    
+    @Column(name = "date")
+    @Timestamp
+    private LocalDateTime date;
 
 
 

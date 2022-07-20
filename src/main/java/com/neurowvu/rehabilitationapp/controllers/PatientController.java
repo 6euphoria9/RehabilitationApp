@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -67,6 +69,25 @@ public class PatientController {
         model.addAttribute("doctor", doctor);
 
         return "patient/cabinet";
+    }
+
+    @PostMapping("/feedback")
+    public String feedback(@ModelAttribute("form")AssignmentDTO form, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
+        model.addAttribute("user", patientDTO);
+
+        Prescription prescription = prescriptionService.getById(patientMailService.getPrescriptionId(patientDTO.getId()));
+        AssignmentDTO assignment = assignmentMapper.mapPrescriptionToForm(prescription);
+        model.addAttribute("form", assignment);
+
+        DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
+        model.addAttribute("doctor", doctor);
+
+        return "patient/feedback";
     }
 
 }
