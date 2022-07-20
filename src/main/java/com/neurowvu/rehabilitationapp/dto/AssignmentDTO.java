@@ -8,6 +8,7 @@ public class AssignmentDTO {
     private String comment;
     private Long patientId;
     private Long taskId;
+    private String taskName;
     private Long weekly;
     private Long daily;
     private Long sets;

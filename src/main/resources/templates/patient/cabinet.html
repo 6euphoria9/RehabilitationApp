@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>PATIENT</title>
 </head>
 <body>
-This is patient's cabinet
+<h2 th:text="${'Good day to you, ' + user.firstName + ' ' + user.lastName}"></h2>
+<br>
+<span th:if="${isThereMessage==true}">
+<h4 th:text="${'Doctor ' + doctor.firstName + ' ' + doctor.lastName + ' has sent you a task:'}"></h4>
+    <br>
+    <h3 th:text="${form.taskName}"></h3><br>
+    <b th:text="${'You need to do this ' + form.weekly + ' times per week' }"></b><br>
+    <b th:text="${'And ' + form.daily + ' times per day' }"></b><br>
+    <b th:text="${form.sets + ' - sets' }"></b><br>
+    <b th:text="${form.reps + ' - reps' }"></b><br>
+    <b th:text="'Please, send me a message when you finish'"></b><br>
+</span>
+
+
+<span th:unless="${isThereMessage==true}">THERE IS NO ANY MESSAGE
+
+
+</span>
+
 </body>
 </html>
