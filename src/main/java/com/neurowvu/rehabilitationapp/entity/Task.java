@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "task")
 @Entity
@@ -22,4 +23,10 @@ public class Task {
     @Column(name = "description")
     private String taskDescription;
 
+    @OneToMany(mappedBy = "task")
+    private List<Metric> metric;
+
+    @OneToOne()
+    @JoinColumn(referencedColumnName = "task_id")
+    private Prescription prescription;
 }

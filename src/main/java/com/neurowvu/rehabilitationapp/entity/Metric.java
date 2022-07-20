@@ -34,7 +34,10 @@ public class Metric {
     private Long duration;
 
     //@Column(name = "task_id")
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     private Task task;
+
+    @OneToOne(mappedBy = "metric")
+    private Prescription prescription;
 }

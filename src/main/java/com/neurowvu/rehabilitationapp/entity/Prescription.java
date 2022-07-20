@@ -26,9 +26,9 @@ public class Prescription {
     @Column
     private LocalDateTime date;
 
-    @OneToMany()
+    @OneToOne()
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private List<Task> taskList;
+    private Task task;
 
     //@Column(name = "metric_id")
 
@@ -36,9 +36,9 @@ public class Prescription {
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     Patient patient;
 
-    @OneToMany()
+    @OneToOne()
     @JoinColumn(name = "metric_id", referencedColumnName = "metric_id")
-    private List<Metric> metricList;
+    private Metric metric;
 
 
 }
