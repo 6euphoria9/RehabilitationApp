@@ -11,7 +11,6 @@
 <br/>
 <p>How are you? :)</p>
 <br/>
-
     <form method="post" th:action="@{patient/}">
             <select th:object="${container}" th:field="*{containerId}">
                 <option th:each="patient : ${patients}"

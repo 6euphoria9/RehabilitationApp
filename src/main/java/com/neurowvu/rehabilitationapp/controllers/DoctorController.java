@@ -56,13 +56,12 @@ public class DoctorController {
         return "doctor/cabinet";
     }
 
-    @PostMapping("/cabinet/patient")
+    @PostMapping("/patient")
     public String getPatientX(Model model, @ModelAttribute("container") Container c){
         Patient patient = patientService.getById(c.getContainerId());
         model.addAttribute("patient", patient);
         return "doctor/patient";
     }
-
 
     @GetMapping("/doctor/{doctorId}/patient")
     public List<PatientDTO> getPatientList(@PathVariable Long doctorId) {
