@@ -5,8 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-<h4 th:text="${patient.firstName + ' ' + patient.lastName}"></h4>
-<br/>
+<h3 th:text="${patient.firstName + ' ' + patient.lastName}"></h3>
+<h4 th:text="${patient.city + ' ' + patient.address}"></h4>
+
+<label for="exercise">Choose exercise:</label>
+<form id="exercise">
+    <select>
+        <option th:each="exercise : ${exercies}" th:text="${#exercise}"></option>
+    </select>
+    <input type="submit" value="push me">
+</form>
+
 
 </body>
 </html>

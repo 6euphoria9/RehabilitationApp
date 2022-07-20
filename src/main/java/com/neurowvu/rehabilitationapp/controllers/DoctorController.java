@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,9 +59,13 @@ public class DoctorController {
     }
 
     @PostMapping("/patient")
-    public String getPatientX(Model model, @ModelAttribute("container") Container c){
+    public String getPatient(Model model, @ModelAttribute("container") Container c){
         Patient patient = patientService.getById(c.getContainerId());
-        model.addAttribute("patient", patient);
+        model.addAttribute("patient", patientMapper.mapToPatientDTO(patient));
+        //test list with exercises
+        List<String> exercises = new ArrayList<>(Arrays.asList("sit", "stand", "jump"));
+        model.addAttribute("exercises", exercises);
+
         return "doctor/patient";
     }
 

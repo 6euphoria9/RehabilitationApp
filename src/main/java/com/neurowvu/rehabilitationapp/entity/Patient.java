@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@Table(name = "patients")
+@Table(name = "patient")
 @Entity
 @Data
 @NoArgsConstructor
