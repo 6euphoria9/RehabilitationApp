@@ -1,4 +1,10 @@
 package com.neurowvu.rehabilitationapp.repositories;
 
-public interface TasksRepository {
+import com.neurowvu.rehabilitationapp.entity.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TasksRepository extends JpaRepository<Task, Long> {
+
 }

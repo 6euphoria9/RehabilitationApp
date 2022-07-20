@@ -1,4 +1,8 @@
 package com.neurowvu.rehabilitationapp.repositories;
 
-public interface MetricsRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MetricsRepository  extends JpaRepository<Metric, Long> {
 }
