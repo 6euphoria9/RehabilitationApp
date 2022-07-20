@@ -14,4 +14,9 @@ public class TaskMapper {
 
         return taskDTO;
     }
+
+    public Task dtoToTask(TaskDTO taskDTO) {
+        return new Task()
+                .setTaskDescription(taskDTO.getDescription());
+    }
 }

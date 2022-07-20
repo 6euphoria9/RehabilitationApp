@@ -11,6 +11,6 @@ import javax.persistence.Id;
 public class TaskDTO {
 
     private Long id;
-    private String taskDescription;
+    private String description;
 
 }

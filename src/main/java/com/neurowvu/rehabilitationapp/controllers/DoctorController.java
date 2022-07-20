@@ -15,6 +15,7 @@ import com.neurowvu.rehabilitationapp.services.DoctorService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
 import com.neurowvu.rehabilitationapp.services.PrescriptionService;
 import com.neurowvu.rehabilitationapp.services.TaskService;
+import com.neurowvu.rehabilitationapp.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +39,8 @@ public class DoctorController {
     private final TaskMapper taskMapper;
     private final TaskService taskService;
     private final PrescriptionService prescriptionService;
+
+    private final TaskService taskService;
 
     @Autowired
     public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService) {
@@ -84,6 +89,17 @@ public class DoctorController {
         return "doctor/patient";
     }
 
+    @GetMapping("/cabinet/workshop")
+    public String createTask(@ModelAttribute("form") TaskDTO form) {
+        return "doctor/cabinet/workshop";
+    }
+
+    @PostMapping("/cabinet/workshop")
+    public String createTaskDone(@ModelAttribute("form") TaskDTO form) {
+        taskService.saveTask(form);
+        return "redirect:/doctor/cabinet";
+    }
+
     @PostMapping("/patient/assign")
     public String assignExercise(@ModelAttribute("assignment")AssignmentDTO container) {
         System.out.println(container);
@@ -92,14 +108,4 @@ public class DoctorController {
 
         return "doctor/assignment";
     }
-
-    @GetMapping("/doctor/{doctorId}/patient")
-    public List<PatientDTO> getPatientList(@PathVariable Long doctorId) {
-        List<PatientDTO> patients = doctorService.getPatientListByDoctorId(doctorId)
-                .stream()
-                .map(patientMapper::mapToPatientDTO)
-                .collect(Collectors.toList());
-        return null;//todo тут редирект на.. кабинет доктора?
-    }
-
 }

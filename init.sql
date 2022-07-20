@@ -72,6 +72,7 @@ CREATE TABLE IF NOT EXISTS prescription
 
 CREATE TABLE IF NOT EXISTS patient_mail
 (
+    mail_id SERIAL NOT NULL,
     prescription_id BIGINT NOT NULL,
     patient_id      BIGINT NOT NULL,
     FOREIGN KEY (prescription_id) REFERENCES prescription (prescription_id),
