@@ -12,4 +12,8 @@ public class PatientMailService {
     public PatientMailService(PatientMailsRepository patientMailsRepository) {
         this.patientMailsRepository = patientMailsRepository;
     }
+
+    public boolean isThereAMessage (Long patientId) {
+        return false;//todo get true if message is present
+    }
 }

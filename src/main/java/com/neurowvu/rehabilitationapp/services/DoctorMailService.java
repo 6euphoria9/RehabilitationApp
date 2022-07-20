@@ -13,4 +13,8 @@ public class DoctorMailService {
     public DoctorMailService(DoctorMailsRepository doctorMailsRepository) {
         this.doctorMailsRepository = doctorMailsRepository;
     }
+
+    public boolean isThereFeedback(Long doctorId) {
+        return false;//todo findByDoctorId
+    }
 }

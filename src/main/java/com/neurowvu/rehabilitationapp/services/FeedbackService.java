@@ -12,4 +12,9 @@ public class FeedbackService {
     public FeedbackService(FeedbacksRepository feedbacksRepository) {
         this.feedbacksRepository = feedbacksRepository;
     }
+
+//    public Feedback getFeedback(int id) {
+//        return null;
+//    }todo return feedback by (???)
+
 }
