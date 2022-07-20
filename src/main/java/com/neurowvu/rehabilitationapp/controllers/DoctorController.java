@@ -2,14 +2,17 @@ package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.Container;
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
+import com.neurowvu.rehabilitationapp.dto.TaskDTO;
 import com.neurowvu.rehabilitationapp.entity.Doctor;
 import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
+import com.neurowvu.rehabilitationapp.mapper.TaskMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
+import com.neurowvu.rehabilitationapp.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +31,17 @@ public class DoctorController {
     private final PatientService patientService;
     private final PatientMapper patientMapper;
     private final DoctorMapper doctorMapper;
+    private final TaskMapper taskMapper;
+    private final TaskService taskService;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper) {
+    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
+        this.taskMapper = taskMapper;
+        this.taskService = taskService;
     }
 
     @GetMapping("/cabinet")
@@ -63,8 +68,9 @@ public class DoctorController {
         Patient patient = patientService.getById(c.getContainerId());
         model.addAttribute("patient", patientMapper.mapToPatientDTO(patient));
         //test list with exercises
-        List<String> exercises = new ArrayList<>(Arrays.asList("sit", "stand", "jump"));
+        List<TaskDTO> exercises = taskService.getTasksList().stream().map(taskMapper::mapTaskToDTO).collect(Collectors.toList());
         model.addAttribute("exercises", exercises);
+        System.out.println(exercises);
 
         return "doctor/patient";
     }

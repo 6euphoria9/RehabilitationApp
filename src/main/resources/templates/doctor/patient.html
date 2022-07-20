@@ -11,7 +11,7 @@
 <label for="exercise">Choose exercise:</label>
 <form id="exercise">
     <select>
-        <option th:each="exercise : ${exercies}" th:text="${#exercise}"></option>
+        <option th:each="exercise : ${exercises}" th:text="${exercise.taskDescription}"></option>
     </select>
     <input type="submit" value="push me">
 </form>

@@ -30,8 +30,6 @@ public class Prescription {
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     private Task task;
 
-    //@Column(name = "metric_id")
-
     @OneToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     Patient patient;

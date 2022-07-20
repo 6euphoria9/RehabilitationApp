@@ -26,7 +26,6 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<Metric> metric;
 
-    @OneToOne()
-    @JoinColumn(referencedColumnName = "task_id")
+    @OneToOne(mappedBy = "task")
     private Prescription prescription;
 }
