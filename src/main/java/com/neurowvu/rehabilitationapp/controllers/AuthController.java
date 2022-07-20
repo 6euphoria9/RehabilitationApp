@@ -2,28 +2,26 @@ package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.DoctorDTO;
 import com.neurowvu.rehabilitationapp.dto.RegistrationPatientForm;
-import com.neurowvu.rehabilitationapp.entity.Doctor;
 import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.dto.RegistrationDoctorForm;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
 import com.neurowvu.rehabilitationapp.services.UserService;
+import com.neurowvu.rehabilitationapp.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/auth")
@@ -32,13 +30,15 @@ public class AuthController {
     private final DoctorMapper doctorMapper;
     private final DoctorService doctorService;
     private final PatientService patientService;
+    private final UserValidator userValidator;
 
     @Autowired
-    public AuthController(UserService userService, DoctorMapper doctorMapper, DoctorService doctorService, PatientService patientService) {
+    public AuthController(UserService userService, DoctorMapper doctorMapper, DoctorService doctorService, PatientService patientService, UserValidator userValidator) {
         this.userService = userService;
         this.doctorMapper = doctorMapper;
         this.doctorService = doctorService;
         this.patientService = patientService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping("/login")
@@ -78,8 +78,15 @@ public class AuthController {
     }
 
     @PostMapping("/registration/patient")
-    public String registrationPatientDone(@ModelAttribute("form") RegistrationPatientForm form) {
+    public String registrationPatientDone(@ModelAttribute("form") RegistrationPatientForm form, BindingResult bindingResult) {
         System.out.println(form);
+
+        userValidator.validate(form, bindingResult);
+
+        if (bindingResult.hasErrors())
+            return "registrationPatient";
+
+
         patientService.registration(form);
         return "redirect:/auth/login";
     }
@@ -89,7 +96,13 @@ public class AuthController {
         return "registrationDoctor";
     }
     @PostMapping("/registration/doctor")
-    public String registrationDoctorDone(@ModelAttribute("form") RegistrationDoctorForm form) {
+    public String registrationDoctorDone(@Valid @ModelAttribute("form") RegistrationDoctorForm form, BindingResult bindingResult) {
+
+        userValidator.validate(form, bindingResult);
+
+        if (bindingResult.hasErrors())
+            return "registrationDoctor";
+
         doctorService.registration(form);
         return "redirect:/auth/login";
     }

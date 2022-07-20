@@ -9,12 +9,13 @@
 <div class="container">
     <h1>Register</h1>
 
-    <form class="form-signin" method="post" th:action="@{/auth/registration/doctor}" th:object="${form}">
+    <form method="post" th:action="@{/auth/registration/doctor}" th:object="${form}">
 
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" th:field="*{username}" class="form-control">
-        </div>
+        <label for="username">Enter username: </label>
+        <input type="text" th:field="*{username}" id="username">
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+        <br/>
+
         <div class="form_group">
             <label>Password</label>
             <input type="password" th:field="*{password}" class="form-control">

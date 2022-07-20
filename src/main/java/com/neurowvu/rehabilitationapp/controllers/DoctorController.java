@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,10 @@ public class DoctorController {
         model.addAttribute("doctor_name",
                 doctor.getFirstName() + " " + doctor.getLastName());
 
-        List<PatientDTO> patients = doctor.getPatientList().stream().map(patientMapper::mapToPatientDTO).collect(Collectors.toList());
+        List<PatientDTO> patients = doctor.getPatientList()
+                .stream()
+                .map(patientMapper::mapToPatientDTO)
+                .collect(Collectors.toList());
         model.addAttribute("patients", patients);
 
         Container container = new Container();
@@ -104,6 +108,6 @@ public class DoctorController {
 
         prescriptionService.save(container);
 
-        return "doctor/assignment";
+        return "redirect:/doctor/cabinet";
     }
 }

@@ -11,10 +11,11 @@
 
     <form class="form-signin" method="post" th:action="@{/auth/registration/patient}" th:object="${form}">
 
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" th:field="*{username}" class="form-control">
-        </div>
+        <label for="username">Enter username: </label>
+        <input type="text" th:field="*{username}" id="username">
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+        <br/>
+
         <div class="form_group">
             <label>Password</label>
             <input type="password" th:field="*{password}" class="form-control">
@@ -48,6 +49,8 @@
                         th:text="${dc.firstName}+' '+${dc.lastName}"></option>
             </select>
         </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 
     </form>
 
