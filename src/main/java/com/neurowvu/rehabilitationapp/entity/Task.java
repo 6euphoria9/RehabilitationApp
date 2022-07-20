@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class Task {
 
     @Id
@@ -26,7 +28,6 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<Metric> metric;
 
-    @OneToOne()
-    @JoinColumn(referencedColumnName = "task_id")
+    @OneToOne(mappedBy = "task")
     private Prescription prescription;
 }

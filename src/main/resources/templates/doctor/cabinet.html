@@ -11,16 +11,21 @@
 <br/>
 <p>How are you? :)</p>
 <br/>
-    <form method="post" th:action="@{patient/}">
-            <select th:object="${container}" th:field="*{containerId}">
-                <option th:each="patient : ${patients}"
-                        th:value="${patient.id}"
-                        th:text="${patient.firstName+' '+patient.lastName}">
-                </option>
-            </select>
-        <input type="submit" value="Submit">
-    </form>
+<form method="post" th:action="@{patient/}">
+    <select th:object="${container}" th:field="*{containerId}">
+        <option th:each="patient : ${patients}"
+                th:value="${patient.id}"
+                th:text="${patient.firstName+' '+patient.lastName}">
+        </option>
+    </select>
+    <input type="submit" value="Submit">
+</form>
 
+<br/>
+
+<p>Do you wanna create a task? Look down!</p>
+
+<p><a href="/doctor/cabinet/workshop">Create task</a>.</p>
 
 
 
