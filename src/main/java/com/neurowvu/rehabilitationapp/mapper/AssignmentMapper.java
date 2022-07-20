@@ -32,4 +32,19 @@ public class AssignmentMapper {
         return metric;
     }
 
+    public AssignmentDTO mapPrescriptionToForm(Prescription prescription) {
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+
+        Metric metric = prescription.getMetric();
+
+        assignmentDTO.setTaskName(prescription.getTask().getTaskDescription());
+        assignmentDTO.setDaily(metric.getDaily());
+        assignmentDTO.setWeekly(metric.getWeekly());
+        assignmentDTO.setSets(metric.getSets());
+        assignmentDTO.setReps(metric.getReps());
+        assignmentDTO.setDuration(metric.getDuration());
+
+        return assignmentDTO;
+    }
+
 }
