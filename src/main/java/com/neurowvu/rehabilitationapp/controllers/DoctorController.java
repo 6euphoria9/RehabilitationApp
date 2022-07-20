@@ -1,5 +1,6 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
+import com.neurowvu.rehabilitationapp.dto.AssignmentDTO;
 import com.neurowvu.rehabilitationapp.dto.Container;
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
 import com.neurowvu.rehabilitationapp.dto.TaskDTO;
@@ -12,6 +13,7 @@ import com.neurowvu.rehabilitationapp.mapper.TaskMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.DoctorService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
+import com.neurowvu.rehabilitationapp.services.PrescriptionService;
 import com.neurowvu.rehabilitationapp.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,15 +35,17 @@ public class DoctorController {
     private final DoctorMapper doctorMapper;
     private final TaskMapper taskMapper;
     private final TaskService taskService;
+    private final PrescriptionService prescriptionService;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService) {
+    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
         this.taskMapper = taskMapper;
         this.taskService = taskService;
+        this.prescriptionService = prescriptionService;
     }
 
     @GetMapping("/cabinet")
@@ -65,14 +69,28 @@ public class DoctorController {
 
     @PostMapping("/patient")
     public String getPatient(Model model, @ModelAttribute("container") Container c){
-        Patient patient = patientService.getById(c.getContainerId());
+        Patient patient = patientService.getById(c.getPatientId());
+
         model.addAttribute("patient", patientMapper.mapToPatientDTO(patient));
-        //test list with exercises
         List<TaskDTO> exercises = taskService.getTasksList().stream().map(taskMapper::mapTaskToDTO).collect(Collectors.toList());
+
         model.addAttribute("exercises", exercises);
         System.out.println(exercises);
 
+        AssignmentDTO assignmentDTO = new AssignmentDTO();
+        assignmentDTO.setPatientId(patient.getId());
+        model.addAttribute("assignment", assignmentDTO);
+
         return "doctor/patient";
+    }
+
+    @PostMapping("/patient/assign")
+    public String assignExercise(@ModelAttribute("assignment")AssignmentDTO container) {
+        System.out.println(container);
+
+        prescriptionService.save(container);
+
+        return "doctor/assignment";
     }
 
     @GetMapping("/doctor/{doctorId}/patient")

@@ -9,11 +9,42 @@
 <h4 th:text="${patient.city + ' ' + patient.address}"></h4>
 
 <label for="exercise">Choose exercise:</label>
-<form id="exercise">
-    <select>
-        <option th:each="exercise : ${exercises}" th:text="${exercise.taskDescription}"></option>
+<form id="exercise" th:method="POST" th:action="@{assign}" th:object="${assignment}">
+
+    <select th:field="*{taskId}">
+        <option th:each="exercise : ${exercises}" th:text="${exercise.taskDescription}" th:value="${exercise.id}"></option>
     </select>
-    <input type="submit" value="push me">
+    <br>
+
+    <p ></p>
+
+    <label for="weekly">Weekly: </label>
+    <input type="text" th:field="*{weekly}" id="weekly">
+    <br>
+
+    <label for="daily">Daily: </label>
+    <input type="text" th:field="*{daily}" id="daily">
+    <br>
+
+    <label for="sets">Sets: </label>
+    <input type="text" th:field="*{sets}" id="sets">
+    <br>
+
+    <label for="reps">Reps: </label>
+    <input type="text" th:field="*{reps}" id="reps">
+    <br>
+
+    <label for="duration">Duration: </label>
+    <input type="text" th:field="*{duration}" id="duration">
+    <br>
+
+    <label for="comment">Description: </label>
+    <input type="text" th:field="*{comment}" id="comment">
+    <br>
+
+    <input th:hidden="true" th:field="*{patientId}" th:value="${patient.id}">
+
+    <input type="submit" value="create assignment">
 </form>
 
 

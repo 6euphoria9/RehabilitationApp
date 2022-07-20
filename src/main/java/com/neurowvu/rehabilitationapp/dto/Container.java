@@ -5,10 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class Container {
-    private Long containerId;
+    private Long patientId;
+    private Long taskId;
 
-    public Container(Long containerId) {
-        this.containerId = containerId;
+    public Container(Long patientId) {
+        this.patientId = patientId;
     }
 
     public Container() {

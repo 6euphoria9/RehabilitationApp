@@ -12,7 +12,7 @@
 <p>How are you? :)</p>
 <br/>
     <form method="post" th:action="@{patient/}">
-            <select th:object="${container}" th:field="*{containerId}">
+            <select th:object="${container}" th:field="*{patientId}">
                 <option th:each="patient : ${patients}"
                         th:value="${patient.id}"
                         th:text="${patient.firstName+' '+patient.lastName}">
