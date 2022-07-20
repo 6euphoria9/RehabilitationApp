@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "tasks")
+@Table(name = "task")
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,15 +19,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "task_description")
+    @Column(name = "description")
     private String taskDescription;
 
-    @Column
-    private Long frequency;
-
-    @Column
-    private String effort;
-
-    @Column
-    private Long duration;
 }

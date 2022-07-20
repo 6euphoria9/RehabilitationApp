@@ -5,40 +5,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
-@Table(name = "prescription")
+@Table(name = "feedback")
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prescription {
+public class Feedback {
+
 
     @Id
-    @Column(name="prescription_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="feedback_id")
     private Long id;
 
-    @Column
-    private String name;
-
-    @Column
-    private LocalDateTime date;
-
-    @OneToMany()
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private List<Task> taskList;
-
-    //@Column(name = "metric_id")
-
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     Patient patient;
 
-    @OneToMany()
+    @OneToOne()
+    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
+    Task task;
+
+    @OneToOne()
     @JoinColumn(name = "metric_id", referencedColumnName = "metric_id")
-    private List<Metric> metricList;
+    Metric metric;
+
 
 
 }

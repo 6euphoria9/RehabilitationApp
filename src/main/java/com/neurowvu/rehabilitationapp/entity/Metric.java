@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Table(name = "metrics")
+@Table(name = "metric")
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,6 +17,21 @@ public class Metric {
     @Column(name = "metric_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
+    private Long weekly;
+
+    @Column
+    private Long daily;
+
+    @Column
+    private Long sets;
+
+    @Column
+    private Long reps;
+
+    @Column
+    private Long duration;
 
     //@Column(name = "task_id")
     @OneToOne()
