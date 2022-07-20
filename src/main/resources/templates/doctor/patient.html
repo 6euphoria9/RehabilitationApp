@@ -12,7 +12,7 @@
 <form id="exercise" th:method="POST" th:action="@{assign}" th:object="${assignment}">
 
     <select th:field="*{taskId}">
-        <option th:each="exercise : ${exercises}" th:text="${exercise.taskDescription}" th:value="${exercise.id}"></option>
+        <option th:each="exercise : ${exercises}" th:text="${exercise.description}" th:value="${exercise.id}"></option>
     </select>
     <br>
 

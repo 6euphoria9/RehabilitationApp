@@ -40,8 +40,6 @@ public class DoctorController {
     private final TaskService taskService;
     private final PrescriptionService prescriptionService;
 
-    private final TaskService taskService;
-
     @Autowired
     public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService) {
         this.doctorService = doctorService;
