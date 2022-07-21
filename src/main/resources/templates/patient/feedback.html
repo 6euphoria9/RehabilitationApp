@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2 th:text="${user.firstName + ' ' + user.lastName + ', please enter your results bellow:'}"></h2>
+<br>
+    <br>
+    <h3 th:text="${form.taskName}"></h3><br>
+    <p>Did everything was okay?</p>
+    <input type="text" th:placeholder="${'Needed count per week: ' + form.weekly}"><br>
+    <input type="text" th:placeholder="${'Needed times per day: ' + form.daily}"><br>
+    <input type="text" th:placeholder="${'Needed sets per exercise: ' + form.sets}"><br>
+    <input type="text" th:placeholder="${'Needed reps per set: ' + form.reps}"><br>
+    <form th:method="POST" th:action="@{/patient/feedback}">
+    <input type="submit" value="Send feedback to a doctor">
+</form>
+</body>
+</html>

@@ -19,6 +19,9 @@
     <b th:text="'Please, send me a message when you finish'"></b><br>
         </span>
 </span>
+<form th:method="POST" th:action="@{/patient/feedback}">
+    <input type="submit" value="I completed this task">
+</form>
 
 
 <span th:unless="${isThereMessage==true}">THERE IS NO ANY MESSAGE
