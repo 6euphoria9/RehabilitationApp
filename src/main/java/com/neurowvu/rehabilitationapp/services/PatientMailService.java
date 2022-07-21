@@ -2,10 +2,15 @@ package com.neurowvu.rehabilitationapp.services;
 
 import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.PatientMail;
+import com.neurowvu.rehabilitationapp.entity.Prescription;
 import com.neurowvu.rehabilitationapp.repositories.PatientMailsRepository;
 import com.neurowvu.rehabilitationapp.repositories.PatientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatientMailService {
@@ -18,19 +23,29 @@ public class PatientMailService {
         this.patientsRepository = patientsRepository;
     }
 
-    public Boolean isThereAMessage (Long patientId) {
+    public Boolean isThereAMessage(Long patientId) {
         System.out.println("IN SERVICE, patient id: " + patientId);
-        Patient patient = patientsRepository.findById(patientId).get();
-        PatientMail patientMail = patientMailsRepository.findByPatient(patient).orElse(null);
+//        Patient patient = patientsRepository.findById(patientId).get();
+//        PatientMail patientMail = patientMailsRepository.findByPatient(patient).orElse(null);
 
+        List<PatientMail> patientMail = patientMailsRepository.findAllByPatient_Id(patientId).orElse(null);
         //System.out.println(patientMail);
         return patientMail != null;
     }
 
-    public Long getPrescriptionId (Long patientId) {
-        Patient patient = patientsRepository.findById(patientId).get();
-        PatientMail patientMail = patientMailsRepository.findByPatient(patient).orElse(null);
+    public List<Prescription> getPrescriptionId(Long patientId) {
+//        Patient patient = patientsRepository.findById(patientId).get();
+        List<PatientMail> patientMail = patientMailsRepository.findAllByPatient_Id(patientId).orElse(null);
+        List<Prescription> prescriptions;
+        if (patientMail != null) {
+            prescriptions = patientMail
+                    .stream()
+                    .map(PatientMail::getPrescription)
+                    .toList();
+            return prescriptions;
+        } else {
+            return null;
+        }
 
-        return patientMail.getPrescription().getId();
     }
 }

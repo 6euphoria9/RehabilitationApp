@@ -21,6 +21,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
@@ -54,11 +58,15 @@ public class PatientController {
         Boolean isThereMessage = patientMailService.isThereAMessage(patientDTO.getId());
         model.addAttribute("isThereMessage", isThereMessage);
 
-        AssignmentDTO assignment = new AssignmentDTO();
+        List<AssignmentDTO> assignment = new ArrayList<>();
 
         if (isThereMessage) {
-            Prescription prescription = prescriptionService.getById(patientMailService.getPrescriptionId(patientDTO.getId()));
-            assignment = assignmentMapper.mapPrescriptionToForm(prescription);
+            List<Prescription> prescription = patientMailService.getPrescriptionId(patientDTO.getId());
+
+            for (Prescription pr : prescription) {
+                assignment.add(assignmentMapper.mapPrescriptionToForm(pr));
+            }
+//            assignment = assignmentMapper.mapPrescriptionToForm(prescription);
         }
 
         model.addAttribute("form", assignment);
