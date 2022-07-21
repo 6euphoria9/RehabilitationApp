@@ -26,11 +26,11 @@ public class Prescription {
     @Column
     private LocalDateTime date;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     private Task task;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     Patient patient;
 

@@ -28,6 +28,6 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<Metric> metric;
 
-    @OneToOne(mappedBy = "task")
-    private Prescription prescription;
+    @OneToMany(mappedBy = "task")
+    private List<Prescription> prescription;
 }
