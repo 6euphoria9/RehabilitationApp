@@ -53,6 +53,7 @@ public class DoctorMailService {
         feedback.setTask(task);
         feedback.setDate(LocalDateTime.now());
         feedback.setMetric(metric);
+        feedback.setComment(form.getComment());
         feedbacksRepository.save(feedback);
 
         doctorMail.setFeedback(feedback);

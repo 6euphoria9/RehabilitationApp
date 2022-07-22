@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body bgcolor="#87cefa">
 <h3 th:text="${patient.firstName + ' ' + patient.lastName + ' has completed your task'}"></h3><br>
 
 <span th:object="${form}">
@@ -13,6 +13,7 @@
     <span th:text="${'And ' + form.daily + '/' + assigned.daily + ' times per day' }" th:style="${assigned.daily > form.daily} ? 'color:red' : 'color:green'"></span><br>
     <span th:text="${form.sets + '/' + assigned.sets + ' - sets' }" th:style="${assigned.sets > form.sets} ? 'color:red' : 'color:green'"></span><br>
     <span th:text="${form.reps + '/' + assigned.reps + ' - reps' }" th:style="${assigned.reps > form.reps} ? 'color:red' : 'color:green'"></span><br>
+    <span th:text="${form.comment}"></span><br>
 </span>
 </body>
 </html>

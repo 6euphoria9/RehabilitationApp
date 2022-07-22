@@ -40,6 +40,9 @@ public class Feedback {
     @Timestamp
     private LocalDateTime date;
 
+    @Column()
+    private String comment;
+
     @OneToOne(mappedBy = "feedback")
     private DoctorMail doctorMail;
 

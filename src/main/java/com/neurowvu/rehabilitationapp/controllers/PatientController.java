@@ -123,7 +123,7 @@ public class PatientController {
 
     @PostMapping("/feedback/send")
     public String sendFeedback(@ModelAttribute("form")AssignmentDTO form, Model model) {
-    System.out.println(form);
+    System.out.println(form.getComment() + "LALALALALALAALLAL");
     patientMailService.removeMailByPrescriptionId(form.getId());
     doctorMailService.sendMailToDoctor(form);
 

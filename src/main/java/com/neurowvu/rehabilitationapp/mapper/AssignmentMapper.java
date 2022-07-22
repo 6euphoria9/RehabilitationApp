@@ -67,6 +67,9 @@ public class AssignmentMapper {
         assignmentDTO.setPatientId(feedback.getPatient().getId());
         assignmentDTO.setTaskName(feedback.getTask().getTaskDescription());
 
+        assignmentDTO.setComment(feedback.getComment());
+
+
         Metric metric = metricsRepository.findById(feedback.getMetric().getId()).get();
 
         assignmentDTO.setWeekly(metric.getWeekly());
@@ -74,7 +77,6 @@ public class AssignmentMapper {
         assignmentDTO.setSets(metric.getSets());
         assignmentDTO.setReps(metric.getReps());
         assignmentDTO.setDuration(metric.getDuration());
-        //assignmentDTO.setComment();todo Comment field
 
         return assignmentDTO;
     }

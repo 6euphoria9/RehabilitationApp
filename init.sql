@@ -90,7 +90,6 @@ CREATE TABLE IF NOT EXISTS feedback
     date        DATE NOT NULL,
     comment     VARCHAR(255),
     PRIMARY KEY (feedback_id),
-    FOREIGN KEY (prescription_id) REFERENCES prescription (prescription_id),
     FOREIGN KEY (patient_id) REFERENCES patient (patient_id),
     FOREIGN KEY (task_id) REFERENCES task (task_id),
     FOREIGN KEY (metric_id) REFERENCES metric (metric_id)

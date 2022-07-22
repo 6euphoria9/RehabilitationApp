@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <title>PATIENT</title>
 </head>
-<body>
+<body bgcolor="#87cefa">
 <h2 th:text="${'Good day to you, ' + user.firstName + ' ' + user.lastName}"></h2>
 <br>
 
 <h4 th:text="${'Doctor ' + doctor.firstName + ' ' + doctor.lastName + ' has sent you a task:'}"></h4>
-    <br>
-    <span th:object="${form}">
+<br>
+<span th:object="${form}">
     <h3 th:text="${form.taskName}"></h3><br>
     <b th:text="${'You need to do this ' + form.weekly + ' times per week' }"></b><br>
     <b th:text="${'And ' + form.daily + ' times per day' }"></b><br>
     <b th:text="${form.sets + ' - sets' }"></b><br>
     <b th:text="${form.reps + ' - reps' }"></b><br>
+        <b th:text="${form.comment}"></b><br>
     <b th:text="'Please, send me a message when you finish'"></b><br>
         </span>
 <form th:method="POST" th:action="@{/patient/feedback/{id}(id=${form.id})}">
