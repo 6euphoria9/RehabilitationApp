@@ -6,6 +6,7 @@ import com.neurowvu.rehabilitationapp.repositories.PatientMailsRepository;
 import com.neurowvu.rehabilitationapp.repositories.PatientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,6 +44,10 @@ public class PatientMailService {
         } else {
             return null;
         }
+    }
 
+    @Transactional
+    public void removeMailByPrescriptionId(Long id) {
+        patientMailsRepository.removeByPrescriptionId(id);
     }
 }

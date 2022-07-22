@@ -1,20 +1,13 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
-import com.neurowvu.rehabilitationapp.dto.AssignmentDTO;
-import com.neurowvu.rehabilitationapp.dto.Container;
-import com.neurowvu.rehabilitationapp.dto.PatientDTO;
-import com.neurowvu.rehabilitationapp.dto.TaskDTO;
+import com.neurowvu.rehabilitationapp.dto.*;
 import com.neurowvu.rehabilitationapp.entity.Doctor;
+import com.neurowvu.rehabilitationapp.entity.Feedback;
 import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.User;
-import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
-import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
-import com.neurowvu.rehabilitationapp.mapper.TaskMapper;
+import com.neurowvu.rehabilitationapp.mapper.*;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
-import com.neurowvu.rehabilitationapp.services.DoctorService;
-import com.neurowvu.rehabilitationapp.services.PatientService;
-import com.neurowvu.rehabilitationapp.services.PrescriptionService;
-import com.neurowvu.rehabilitationapp.services.TaskService;
+import com.neurowvu.rehabilitationapp.services.*;
 import com.neurowvu.rehabilitationapp.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,10 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,19 +27,27 @@ public class DoctorController {
     private final PatientService patientService;
     private final PatientMapper patientMapper;
     private final DoctorMapper doctorMapper;
+    private final AssignmentMapper assignmentMapper;
     private final TaskMapper taskMapper;
     private final TaskService taskService;
     private final PrescriptionService prescriptionService;
+    private final DoctorMailService doctorMailService;
+    private final DoctorMailMapper doctorMailMapper;
+    private final FeedbackService feedbackService;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService) {
+    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, AssignmentMapper assignmentMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService, DoctorMailService doctorMailService, DoctorMailMapper doctorMailMapper, FeedbackService feedbackService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
+        this.assignmentMapper = assignmentMapper;
         this.taskMapper = taskMapper;
         this.taskService = taskService;
         this.prescriptionService = prescriptionService;
+        this.doctorMailService = doctorMailService;
+        this.doctorMailMapper = doctorMailMapper;
+        this.feedbackService = feedbackService;
     }
 
     @GetMapping("/cabinet")
@@ -61,6 +59,15 @@ public class DoctorController {
         Doctor doctor = user.getDoctor();
         model.addAttribute("doctor_name",
                 doctor.getFirstName() + " " + doctor.getLastName());
+
+        Boolean isThereMessage = doctorMailService.isThereAMessage(doctor.getId());
+        model.addAttribute("isThereMessage", isThereMessage);
+        System.out.println(isThereMessage);
+        if (isThereMessage) {
+            List<DoctorMailDTO> mails = doctorMailService.getAllMessagesByDoctorId(doctor.getId()).stream().map(doctorMailMapper::mapMailToDTO).collect(Collectors.toList());
+            model.addAttribute("mails", mails);
+            mails.forEach(System.out::println);
+        }
 
         List<PatientDTO> patients = doctor.getPatientList()
                 .stream()
@@ -109,5 +116,16 @@ public class DoctorController {
         prescriptionService.save(container);
 
         return "redirect:/doctor/cabinet";
+    }
+
+    @GetMapping("/feedback/{id}")
+    public String feedbackPage(@PathVariable("id")Long id, Model model) {
+
+        Feedback feedback = feedbackService.getById(id);
+        AssignmentDTO form = assignmentMapper.mapFeedbackToAssignmentDTO(feedback);
+
+        model.addAttribute("form", form);
+
+        return "doctor/feedback";
     }
 }

@@ -9,6 +9,7 @@ import com.neurowvu.rehabilitationapp.mapper.AssignmentMapper;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
+import com.neurowvu.rehabilitationapp.services.DoctorMailService;
 import com.neurowvu.rehabilitationapp.services.PatientMailService;
 import com.neurowvu.rehabilitationapp.services.PatientService;
 import com.neurowvu.rehabilitationapp.services.PrescriptionService;
@@ -31,15 +32,17 @@ public class PatientController {
     private final DoctorMapper doctorMapper;
     private final PatientService patientService;
     private final PatientMailService patientMailService;
+    private final DoctorMailService doctorMailService;
     private final PrescriptionService prescriptionService;
 
     @Autowired
-    public PatientController(AssignmentMapper assignmentMapper, PatientMapper patientMapper, DoctorMapper doctorMapper, PatientService patientService, PatientMailService patientMailService, PrescriptionService prescriptionService) {
+    public PatientController(AssignmentMapper assignmentMapper, PatientMapper patientMapper, DoctorMapper doctorMapper, PatientService patientService, PatientMailService patientMailService, DoctorMailService doctorMailService, PrescriptionService prescriptionService) {
         this.assignmentMapper = assignmentMapper;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
         this.patientService = patientService;
         this.patientMailService = patientMailService;
+        this.doctorMailService = doctorMailService;
         this.prescriptionService = prescriptionService;
     }
 
@@ -106,11 +109,55 @@ public class PatientController {
         Prescription prescription = prescriptionService.getById(id);
         AssignmentDTO assignment = assignmentMapper.mapPrescriptionToForm(prescription);
         model.addAttribute("form", assignment);
+        System.out.println(assignment);
+
+        AssignmentDTO feedback = new AssignmentDTO();
+        model.addAttribute("feedback", feedback);
+
 
         DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
         model.addAttribute("doctor", doctor);
 
         return "patient/feedback";
+    }
+
+    @PostMapping("/feedback/send")
+    public String sendFeedback(@ModelAttribute("form")AssignmentDTO form, Model model) {
+    System.out.println(form);
+    patientMailService.removeMailByPrescriptionId(form.getId());
+    doctorMailService.sendMailToDoctor(form);
+
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
+        model.addAttribute("user", patientDTO);
+
+        Boolean isThereMessage = patientMailService.isThereAMessage(patientDTO.getId());
+        model.addAttribute("isThereMessage", isThereMessage);
+        System.out.println(isThereMessage);
+
+
+        List<AssignmentDTO> assignment = new ArrayList<>();
+
+        if (isThereMessage) {
+            List<Prescription> prescription = patientMailService.getPrescriptionsByThePatientId(patientDTO.getId());
+
+            for (Prescription pr : prescription) {
+                assignment.add(assignmentMapper.mapPrescriptionToForm(pr));
+            }
+        }
+
+        model.addAttribute("form", assignment);
+
+        DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
+        model.addAttribute("doctor", doctor);
+
+
+        return "patient/entry";
     }
 
 }

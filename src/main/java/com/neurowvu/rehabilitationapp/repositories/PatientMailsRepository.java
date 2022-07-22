@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface PatientMailsRepository  extends JpaRepository<PatientMail, Long> {
     Optional<List<PatientMail>> findAllByPatient_Id(Long id);
 
-
+    void removeByPrescriptionId(Long id);
     List<PatientMail> findAllByPatient(Patient patient);
 
 }

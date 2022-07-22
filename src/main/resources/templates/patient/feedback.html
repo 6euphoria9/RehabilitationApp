@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,11 +10,28 @@
     <br>
     <h3 th:text="${form.taskName}"></h3><br>
     <p>Did everything was okay?</p>
-    <input type="text" th:placeholder="${'Needed count per week: ' + form.weekly}"><br>
-    <input type="text" th:placeholder="${'Needed times per day: ' + form.daily}"><br>
-    <input type="text" th:placeholder="${'Needed sets per exercise: ' + form.sets}"><br>
-    <input type="text" th:placeholder="${'Needed reps per set: ' + form.reps}"><br>
-    <form th:method="POST" th:action="@{/patient/feedback}">
+<form th:object="${feedback}" th:method="POST" th:action="@{send}">
+
+    <label for="weekly"></label>
+    <input id="weekly" th:field="*{weekly}" type="text" th:placeholder="${'Needed count per week: ' + form.weekly}"><br>
+
+    <label for="daily"></label>
+    <input id="daily" th:field="*{daily}" type="text" th:placeholder="${'Needed times per day: ' + form.daily}"><br>
+
+    <label for="sets"></label>
+    <input id="sets" th:field="*{sets}" type="text" th:placeholder="${'Needed sets per exercise: ' + form.sets}"><br>
+
+    <label for="reps"></label>
+    <input id="reps" th:field="*{reps}" type="text" th:placeholder="${'Needed reps per set: ' + form.reps}"><br>
+
+    <label for="comment"></label>
+    <input id="comment" th:field="*{comment}" th:placeholder="'Additional commentary'"><br>
+
+<input th:hidden="true" th:name="id" th:value="${form.id}">
+<input th:hidden="true" th:name="patientId" th:value="${form.patientId}">
+<input th:hidden="true" th:name="taskId" th:value="${form.taskId}">
+<input th:hidden="true" th:name="taskName" th:value="${form.taskName}">
+
     <input type="submit" value="Send feedback to a doctor">
 </form>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>DOCTOR's CABINET</title>
@@ -23,7 +23,15 @@
 
 <br/>
 
-<p>Do you wanna create a task? Look down!</p>
+<span th:if="${isThereMessage==true}" th:each="mail : ${mails}">
+
+    <a th:href="@{feedback/{id}(id=${mail.feedbackId})}" th:text="'There is new feedback from your patient'"></a>
+<!--    <a th:href="@{/patient/cabinet/{id}(id=${prescription.id})}" th:text="${prescription.taskName}"></a><br>-->
+
+
+</span>
+
+<p>Do you wanna create a task? Look down!</p><br>
 
 <p><a href="/doctor/cabinet/workshop">Create task</a>.</p>
 

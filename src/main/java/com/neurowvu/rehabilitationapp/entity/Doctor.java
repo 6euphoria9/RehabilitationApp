@@ -32,7 +32,11 @@ public class Doctor {
     private User user;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
-    public List<Patient> patientList;
+    private List<Patient> patientList;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<DoctorMail> doctorMail;
+
 
 
 }

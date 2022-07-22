@@ -4,6 +4,7 @@ import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain=true)
 public class Feedback {
 
 
@@ -38,6 +40,7 @@ public class Feedback {
     @Timestamp
     private LocalDateTime date;
 
-
+    @OneToOne(mappedBy = "feedback")
+    private DoctorMail doctorMail;
 
 }

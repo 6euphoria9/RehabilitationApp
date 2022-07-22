@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<span th:object="${form}">
+    <h3 th:text="${form.taskName}"></h3><br>
+    <b th:text="${'Patient did it ' + form.weekly + ' times per week' }"></b><br>
+    <b th:text="${'And ' + form.daily + ' times per day' }"></b><br>
+    <b th:text="${form.sets + ' - sets' }"></b><br>
+    <b th:text="${form.reps + ' - reps' }"></b><br>
+</span>
+</body>
+</html>
