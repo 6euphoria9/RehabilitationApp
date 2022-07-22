@@ -26,8 +26,8 @@ public class PatientMailService {
 //        PatientMail patientMail = patientMailsRepository.findByPatient(patient).orElse(null);
 
         List<PatientMail> patientMail = patientMailsRepository.findAllByPatient_Id(patientId).orElse(null);
-        //System.out.println(patientMail);
-        return patientMail != null;
+        //System.out.println(patientMail.size());
+        return patientMail.size() > 0;
     }
 
     public List<Prescription> getPrescriptionsByThePatientId(Long patientId) {

@@ -54,6 +54,8 @@ public class PatientController {
 
         Boolean isThereMessage = patientMailService.isThereAMessage(patientDTO.getId());
         model.addAttribute("isThereMessage", isThereMessage);
+        System.out.println(isThereMessage);
+
 
         List<AssignmentDTO> assignment = new ArrayList<>();
 
