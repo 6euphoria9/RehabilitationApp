@@ -10,6 +10,7 @@ import com.neurowvu.rehabilitationapp.repositories.PatientsRepository;
 import com.neurowvu.rehabilitationapp.repositories.UsersRepository;
 import com.neurowvu.rehabilitationapp.dto.RegistrationDoctorForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +22,15 @@ public class DoctorService {
     private final DoctorMapper doctorMapper;
     private final UsersRepository usersRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public DoctorService(DoctorsRepository doctorsRepository, PatientsRepository patientsRepository, DoctorMapper doctorMapper, UsersRepository usersRepository, UserMapper userMapper) {
+    public DoctorService(DoctorsRepository doctorsRepository, PatientsRepository patientsRepository, DoctorMapper doctorMapper, UsersRepository usersRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.doctorsRepository = doctorsRepository;
         this.patientsRepository = patientsRepository;
         this.doctorMapper = doctorMapper;
         this.usersRepository = usersRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Patient> getPatientListByDoctorId(Long doctorId) {
@@ -43,6 +46,7 @@ public class DoctorService {
 
     public void registration(RegistrationDoctorForm form) {
        User user = userMapper.mapDoctorFormToUser(form);
+       user.setPassword(passwordEncoder.encode(user.getPassword()));
        usersRepository.save(user);
         Doctor doctor = doctorMapper.formToDoctor(form);
         doctor.setUser(user);
