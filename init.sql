@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS doctor
     last_name  VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     user_id    int          NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES "user",
-    PRIMARY KEY (doctor_id)
+    PRIMARY KEY (doctor_id),
+    FOREIGN KEY (user_id) REFERENCES "user"(user_id)
 
 );
 
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS patient
     doctor_id  BIGINT       NOT NULL,
     user_id    int          NOT NULL,
     PRIMARY KEY (patient_id),
-    FOREIGN KEY (doctor_id) REFERENCES doctor,
-    FOREIGN KEY (user_id) REFERENCES "user"
+    FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id),
+    FOREIGN KEY (user_id) REFERENCES "user"(user_id)
 );
 
 
@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS patient_mail
     mail_id SERIAL NOT NULL,
     prescription_id BIGINT NOT NULL,
     patient_id      BIGINT NOT NULL,
+    PRIMARY KEY (mail_id),
     FOREIGN KEY (prescription_id) REFERENCES prescription (prescription_id),
     FOREIGN KEY (patient_id) REFERENCES patient (patient_id)
 );
@@ -85,6 +86,7 @@ CREATE TABLE IF NOT EXISTS feedback
     patient_id  BIGINT NOT NULL,
     task_id     BIGINT NOT NULL,
     metric_id   BIGINT NOT NULL,
+    date        DATE NOT NULL ,
     PRIMARY KEY (feedback_id),
     FOREIGN KEY (patient_id) REFERENCES patient (patient_id),
     FOREIGN KEY (task_id) REFERENCES task (task_id),
@@ -96,8 +98,20 @@ CREATE TABLE IF NOT EXISTS doctor_mail
     mail_id SERIAL NOT NULL,
     doctor_id   BIGINT NOT NULL,
     feedback_id BIGINT NOT NULL,
+    PRIMARY KEY (mail_id),
     FOREIGN KEY (doctor_id) REFERENCES doctor (doctor_id),
     FOREIGN KEY (feedback_id) REFERENCES feedback (feedback_id)
+);
+
+CREATE TABLE IF NOT EXISTS grade
+(
+  grade_id SERIAL NOT NULL,
+  grade SMALLINT NOT NULL ,
+  prescription_id BIGINT NOT NULL ,
+  patient_id BIGINT NOT NULL ,
+  PRIMARY KEY (grade_id),
+  FOREIGN KEY (prescription_id) REFERENCES prescription(prescription_id),
+  FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
 );
 
 
