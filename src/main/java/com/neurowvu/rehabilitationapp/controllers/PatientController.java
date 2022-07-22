@@ -3,7 +3,6 @@ package com.neurowvu.rehabilitationapp.controllers;
 import com.neurowvu.rehabilitationapp.dto.AssignmentDTO;
 import com.neurowvu.rehabilitationapp.dto.DoctorDTO;
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
-import com.neurowvu.rehabilitationapp.entity.Doctor;
 import com.neurowvu.rehabilitationapp.entity.Prescription;
 import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.AssignmentMapper;
@@ -19,13 +18,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/patient")
@@ -63,7 +60,7 @@ public class PatientController {
         List<AssignmentDTO> assignment = new ArrayList<>();
 
         if (isThereMessage) {
-            List<Prescription> prescription = patientMailService.getPrescriptionId(patientDTO.getId());
+            List<Prescription> prescription = patientMailService.getPrescriptionsByThePatientId(patientDTO.getId());
 
             for (Prescription pr : prescription) {
                 assignment.add(assignmentMapper.mapPrescriptionToForm(pr));
@@ -76,8 +73,28 @@ public class PatientController {
         DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
         model.addAttribute("doctor", doctor);
 
+        return "patient/entry";
+    }
+
+    @GetMapping("/cabinet/{id}")
+    public String taskInformation(@PathVariable("id")Long id, Model model){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
+        model.addAttribute("user", patientDTO);
+
+        AssignmentDTO assignment = assignmentMapper.mapPrescriptionToForm(prescriptionService.getById(id));
+        model.addAttribute("form", assignment);
+
+        DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
+        model.addAttribute("doctor", doctor);
+
         return "patient/cabinet";
     }
+
 
 //    @PostMapping("/feedback")
 //    public String feedback(@ModelAttribute("form")AssignmentDTO form, Model model){

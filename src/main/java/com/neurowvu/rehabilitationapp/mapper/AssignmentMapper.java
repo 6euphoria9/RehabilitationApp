@@ -37,6 +37,7 @@ public class AssignmentMapper {
 
         Metric metric = prescription.getMetric();
 
+        assignmentDTO.setId(prescription.getId());
         assignmentDTO.setTaskName(prescription.getTask().getTaskDescription());
         assignmentDTO.setDaily(metric.getDaily());
         assignmentDTO.setWeekly(metric.getWeekly());

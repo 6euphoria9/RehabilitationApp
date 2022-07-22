@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "patient")
 @Entity
@@ -39,4 +40,7 @@ public class Patient {
     @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "patient")
+    private List<PatientMail> patientMail;
 }

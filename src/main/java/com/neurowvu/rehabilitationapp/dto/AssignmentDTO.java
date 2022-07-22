@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class AssignmentDTO {
 
+    private Long id;
     private String comment;
     private Long patientId;
     private Long taskId;

@@ -29,6 +29,7 @@ public class PrescriptionService {
     }
 
     public Prescription getById(Long prescriptionId) {
+        System.out.println("trying to get by id");
         return prescriptionsRepository.findById(prescriptionId).get();//todo need to check
     }
 

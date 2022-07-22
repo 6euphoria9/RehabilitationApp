@@ -1,6 +1,5 @@
 package com.neurowvu.rehabilitationapp.services;
 
-import com.neurowvu.rehabilitationapp.entity.Patient;
 import com.neurowvu.rehabilitationapp.entity.PatientMail;
 import com.neurowvu.rehabilitationapp.entity.Prescription;
 import com.neurowvu.rehabilitationapp.repositories.PatientMailsRepository;
@@ -8,9 +7,7 @@ import com.neurowvu.rehabilitationapp.repositories.PatientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PatientMailService {
@@ -33,7 +30,7 @@ public class PatientMailService {
         return patientMail != null;
     }
 
-    public List<Prescription> getPrescriptionId(Long patientId) {
+    public List<Prescription> getPrescriptionsByThePatientId(Long patientId) {
 //        Patient patient = patientsRepository.findById(patientId).get();
         List<PatientMail> patientMail = patientMailsRepository.findAllByPatient_Id(patientId).orElse(null);
         List<Prescription> prescriptions;

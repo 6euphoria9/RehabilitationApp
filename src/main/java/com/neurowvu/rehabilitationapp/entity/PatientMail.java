@@ -23,7 +23,7 @@ public class PatientMail {
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     Patient patient;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prescription_id", referencedColumnName = "prescription_id")
     Prescription prescription;
 
