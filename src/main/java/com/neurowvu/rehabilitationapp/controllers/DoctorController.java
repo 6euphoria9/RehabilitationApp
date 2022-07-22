@@ -122,9 +122,17 @@ public class DoctorController {
     public String feedbackPage(@PathVariable("id")Long id, Model model) {
 
         Feedback feedback = feedbackService.getById(id);
-        AssignmentDTO form = assignmentMapper.mapFeedbackToAssignmentDTO(feedback);
 
+        AssignmentDTO form = assignmentMapper.mapFeedbackToAssignmentDTO(feedback);
         model.addAttribute("form", form);
+
+        AssignmentDTO assigned = assignmentMapper.mapPrescriptionToForm(prescriptionService.getById(feedback.getPrescription().getId()));
+        model.addAttribute("assigned", assigned);
+
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(patientService.getById(form.getPatientId()));
+        model.addAttribute("patient", patientDTO);
+
+
 
         return "doctor/feedback";
     }

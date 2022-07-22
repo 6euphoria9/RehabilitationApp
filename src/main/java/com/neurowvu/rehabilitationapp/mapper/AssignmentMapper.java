@@ -60,7 +60,10 @@ public class AssignmentMapper {
     public AssignmentDTO mapFeedbackToAssignmentDTO(Feedback feedback) {
         AssignmentDTO assignmentDTO = new AssignmentDTO();
 
-        //assignmentDTO.setId(feedback.getMetric().getPrescription().getId());todo get Prescription
+        System.out.println("TEST1");
+        assignmentDTO.setId(feedback.getPrescription().getId());
+        System.out.println("TEST2");
+
         assignmentDTO.setPatientId(feedback.getPatient().getId());
         assignmentDTO.setTaskName(feedback.getTask().getTaskDescription());
 

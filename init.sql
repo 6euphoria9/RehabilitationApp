@@ -86,8 +86,11 @@ CREATE TABLE IF NOT EXISTS feedback
     patient_id  BIGINT NOT NULL,
     task_id     BIGINT NOT NULL,
     metric_id   BIGINT NOT NULL,
-    date        DATE NOT NULL ,
+    prescription_id BIGINT NOT NULL,
+    date        DATE NOT NULL,
+    comment     VARCHAR(255),
     PRIMARY KEY (feedback_id),
+    FOREIGN KEY (prescription_id) REFERENCES prescription (prescription_id),
     FOREIGN KEY (patient_id) REFERENCES patient (patient_id),
     FOREIGN KEY (task_id) REFERENCES task (task_id),
     FOREIGN KEY (metric_id) REFERENCES metric (metric_id)
@@ -105,13 +108,13 @@ CREATE TABLE IF NOT EXISTS doctor_mail
 
 CREATE TABLE IF NOT EXISTS grade
 (
-  grade_id SERIAL NOT NULL,
-  grade SMALLINT NOT NULL ,
-  prescription_id BIGINT NOT NULL ,
-  patient_id BIGINT NOT NULL ,
-  PRIMARY KEY (grade_id),
-  FOREIGN KEY (prescription_id) REFERENCES prescription(prescription_id),
-  FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
+    grade_id SERIAL NOT NULL,
+    grade SMALLINT NOT NULL ,
+    prescription_id BIGINT NOT NULL ,
+    patient_id BIGINT NOT NULL ,
+    PRIMARY KEY (grade_id),
+    FOREIGN KEY (prescription_id) REFERENCES prescription(prescription_id),
+    FOREIGN KEY (patient_id) REFERENCES patient(patient_id)
 );
 
 

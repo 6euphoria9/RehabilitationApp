@@ -38,5 +38,8 @@ public class Prescription {
     @JoinColumn(name = "metric_id", referencedColumnName = "metric_id")
     private Metric metric;
 
+    @OneToOne(mappedBy = "prescription")
+    private Feedback feedback;
+
 
 }

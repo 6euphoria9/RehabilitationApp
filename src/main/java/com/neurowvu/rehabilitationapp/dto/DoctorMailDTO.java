@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class DoctorMailDTO {
     private Long feedbackId;
+    private String patientName;
 }

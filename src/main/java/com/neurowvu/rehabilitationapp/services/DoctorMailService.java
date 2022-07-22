@@ -16,14 +16,16 @@ public class DoctorMailService {
     private final TasksRepository tasksRepository;
     private final MetricsRepository metricsRepository;
     private final FeedbacksRepository feedbacksRepository;
+    private final PrescriptionService prescriptionService;
 
-    public DoctorMailService(DoctorMailsRepository doctorMailsRepository, DoctorsRepository doctorsRepository, PatientsRepository patientsRepository, TasksRepository tasksRepository, MetricsRepository metricsRepository, FeedbacksRepository feedbacksRepository) {
+    public DoctorMailService(DoctorMailsRepository doctorMailsRepository, DoctorsRepository doctorsRepository, PatientsRepository patientsRepository, TasksRepository tasksRepository, MetricsRepository metricsRepository, FeedbacksRepository feedbacksRepository, PrescriptionService prescriptionService) {
         this.doctorMailsRepository = doctorMailsRepository;
         this.doctorsRepository = doctorsRepository;
         this.patientsRepository = patientsRepository;
         this.tasksRepository = tasksRepository;
         this.metricsRepository = metricsRepository;
         this.feedbacksRepository = feedbacksRepository;
+        this.prescriptionService = prescriptionService;
     }
 
     public void sendMailToDoctor(AssignmentDTO form) {
@@ -44,6 +46,9 @@ public class DoctorMailService {
         metric.setDuration(form.getDuration());
         metricsRepository.save(metric);
 
+        Prescription prescription = prescriptionService.getById(form.getId());
+
+        feedback.setPrescription(prescription);
         feedback.setPatient(patient);
         feedback.setTask(task);
         feedback.setDate(LocalDateTime.now());

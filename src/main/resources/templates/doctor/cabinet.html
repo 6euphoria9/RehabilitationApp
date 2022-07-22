@@ -25,7 +25,7 @@
 
 <span th:if="${isThereMessage==true}" th:each="mail : ${mails}">
 
-    <a th:href="@{feedback/{id}(id=${mail.feedbackId})}" th:text="'There is new feedback from your patient'"></a>
+    <a th:href="@{feedback/{id}(id=${mail.feedbackId})}" th:text="'There is new feedback from your patient ' + ${mail.patientName}"></a><br>
 <!--    <a th:href="@{/patient/cabinet/{id}(id=${prescription.id})}" th:text="${prescription.taskName}"></a><br>-->
 
 

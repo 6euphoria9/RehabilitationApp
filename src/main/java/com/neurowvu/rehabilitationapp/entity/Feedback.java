@@ -43,4 +43,8 @@ public class Feedback {
     @OneToOne(mappedBy = "feedback")
     private DoctorMail doctorMail;
 
+    @OneToOne
+    @JoinColumn(name = "prescription_id", referencedColumnName = "prescription_id")
+    private Prescription prescription;
+
 }
