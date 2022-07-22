@@ -17,9 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +63,6 @@ public class PatientController {
             for (Prescription pr : prescription) {
                 assignment.add(assignmentMapper.mapPrescriptionToForm(pr));
             }
-//            assignment = assignmentMapper.mapPrescriptionToForm(prescription);
         }
 
         model.addAttribute("form", assignment);
@@ -96,23 +93,22 @@ public class PatientController {
     }
 
 
-//    @PostMapping("/feedback")
-//    public String feedback(@ModelAttribute("form")AssignmentDTO form, Model model){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
-//        User user = personDetails.getUser();
-//
-//        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
-//        model.addAttribute("user", patientDTO);
-//
-//        Prescription prescription = prescriptionService.getById(patientMailService.getPrescriptionId(patientDTO.getId()));
-//        AssignmentDTO assignment = assignmentMapper.mapPrescriptionToForm(prescription);
-//        model.addAttribute("form", assignment);
-//
-//        DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
-//        model.addAttribute("doctor", doctor);
-//
-//        return "patient/feedback";
-//    }
+    @PostMapping("/feedback/{id}")
+    public String feedback(@PathVariable("id")Long id, @ModelAttribute("form")AssignmentDTO form, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
+        model.addAttribute("user", patientDTO);
+
+        Prescription prescription = prescriptionService.getById(id);
+        AssignmentDTO assignment = assignmentMapper.mapPrescriptionToForm(prescription);
+        model.addAttribute("form", assignment);
+
+        DoctorDTO doctor = doctorMapper.mapToDoctorDTO(user.getPatient().getDoctor());
+        model.addAttribute("doctor", doctor);
+
+        return "patient/feedback";
+    }
 
 }

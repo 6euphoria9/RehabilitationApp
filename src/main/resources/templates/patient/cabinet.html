@@ -18,7 +18,7 @@
     <b th:text="${form.reps + ' - reps' }"></b><br>
     <b th:text="'Please, send me a message when you finish'"></b><br>
         </span>
-<form th:method="POST" th:action="@{/patient/feedback}">
+<form th:method="POST" th:action="@{/patient/feedback/{id}(id=${form.id})}">
     <input type="submit" value="I completed this task">
 </form>
 
