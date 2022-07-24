@@ -34,4 +34,8 @@ public class GradeService {
 
         gradesRepository.save(gradeDB);
     }
+
+    public Grade getByPrescriptionId(Long id) {
+        return gradesRepository.getByPrescriptionId(id);
+    }
 }

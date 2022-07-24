@@ -2,17 +2,17 @@ package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.AssignmentDTO;
 import com.neurowvu.rehabilitationapp.dto.DoctorDTO;
+import com.neurowvu.rehabilitationapp.dto.GradeHistoryDTO;
 import com.neurowvu.rehabilitationapp.dto.PatientDTO;
+import com.neurowvu.rehabilitationapp.entity.Feedback;
 import com.neurowvu.rehabilitationapp.entity.Prescription;
 import com.neurowvu.rehabilitationapp.entity.User;
 import com.neurowvu.rehabilitationapp.mapper.AssignmentMapper;
 import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
+import com.neurowvu.rehabilitationapp.mapper.GradeHistoryMapper;
 import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
-import com.neurowvu.rehabilitationapp.services.DoctorMailService;
-import com.neurowvu.rehabilitationapp.services.PatientMailService;
-import com.neurowvu.rehabilitationapp.services.PatientService;
-import com.neurowvu.rehabilitationapp.services.PrescriptionService;
+import com.neurowvu.rehabilitationapp.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -30,24 +31,33 @@ public class PatientController {
     private final AssignmentMapper assignmentMapper;
     private final PatientMapper patientMapper;
     private final DoctorMapper doctorMapper;
-    private final PatientService patientService;
     private final PatientMailService patientMailService;
     private final DoctorMailService doctorMailService;
     private final PrescriptionService prescriptionService;
 
+    private final FeedbackService feedbackService;
+    private final GradeService gradeService;
+    private final GradeHistoryMapper gradeHistoryMapper;
+
+
     @Autowired
-    public PatientController(AssignmentMapper assignmentMapper, PatientMapper patientMapper, DoctorMapper doctorMapper, PatientService patientService, PatientMailService patientMailService, DoctorMailService doctorMailService, PrescriptionService prescriptionService) {
+    public PatientController(AssignmentMapper assignmentMapper, PatientMapper patientMapper, DoctorMapper doctorMapper,
+                             PatientMailService patientMailService, DoctorMailService doctorMailService,
+                             PrescriptionService prescriptionService, FeedbackService feedbackService, GradeService gradeService,
+                             GradeHistoryMapper gradeHistoryMapper) {
         this.assignmentMapper = assignmentMapper;
         this.patientMapper = patientMapper;
         this.doctorMapper = doctorMapper;
-        this.patientService = patientService;
         this.patientMailService = patientMailService;
         this.doctorMailService = doctorMailService;
         this.prescriptionService = prescriptionService;
+        this.feedbackService = feedbackService;
+        this.gradeService = gradeService;
+        this.gradeHistoryMapper = gradeHistoryMapper;
     }
 
     @GetMapping("/cabinet")
-    public String patientCabinet(Model model){
+    public String patientCabinet(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
         User user = personDetails.getUser();
@@ -79,7 +89,7 @@ public class PatientController {
     }
 
     @GetMapping("/cabinet/{id}")
-    public String taskInformation(@PathVariable("id")Long id, Model model){
+    public String taskInformation(@PathVariable("id") Long id, Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
@@ -99,7 +109,7 @@ public class PatientController {
 
 
     @PostMapping("/feedback/{id}")
-    public String feedback(@PathVariable("id")Long id, @ModelAttribute("form")AssignmentDTO form, Model model){
+    public String feedback(@PathVariable("id") Long id, @ModelAttribute("form") AssignmentDTO form, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
         User user = personDetails.getUser();
@@ -122,11 +132,10 @@ public class PatientController {
     }
 
     @PostMapping("/feedback/send")
-    public String sendFeedback(@ModelAttribute("form")AssignmentDTO form, Model model) {
-    System.out.println(form.getComment() + "LALALALALALAALLAL");
-    patientMailService.removeMailByPrescriptionId(form.getId());
-    doctorMailService.sendMailToDoctor(form);
-
+    public String sendFeedback(@ModelAttribute("form") AssignmentDTO form, Model model) {
+        System.out.println(form.getComment() + "LALALALALALAALLAL");
+        patientMailService.removeMailByPrescriptionId(form.getId());
+        doctorMailService.sendMailToDoctor(form);
 
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -158,6 +167,30 @@ public class PatientController {
 
 
         return "patient/entry";
+    }
+
+    @GetMapping("/gradehistory")
+    public String getGradeHistory(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser personDetails = (SecurityUser) authentication.getPrincipal();
+        User user = personDetails.getUser();
+
+        PatientDTO patientDTO = patientMapper.mapToPatientDTO(user.getPatient());
+        model.addAttribute("user", patientDTO);
+
+        List<GradeHistoryDTO> historyDTOList = new ArrayList<>();
+
+        List<Feedback> feedbacks = feedbackService.getAllById(patientDTO.getId());
+
+        for (Feedback fb : feedbacks) {
+            historyDTOList.add(gradeHistoryMapper.mapToGradeHistoryDTO(fb, gradeService.getByPrescriptionId(fb.getPrescription().getId())));
+        }
+
+        historyDTOList.sort(Comparator.comparing(GradeHistoryDTO::getDate));
+
+        model.addAttribute("history", historyDTOList);
+
+        return "patient/gradeHistory";
     }
 
 }
