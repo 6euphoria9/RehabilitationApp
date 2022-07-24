@@ -131,12 +131,10 @@ public class DoctorController {
         PatientDTO patientDTO = patientMapper.mapToPatientDTO(patientService.getById(form.getPatientId()));
         model.addAttribute("patient", patientDTO);
 
-        Container feedbackId = new Container();
-        feedbackId.setTaskId(id);
-        model.addAttribute("feedbackId", feedbackId);
-
-//        Grade grade = new Grade();
-//        model.addAttribute("grade", grade);
+//        Container feedbackId = new Container();
+//        feedbackId.setTaskId(id);
+//        model.addAttribute("feedbackId", feedbackId);
+        model.addAttribute("feedId", feedback.getId());
 
         return "doctor/feedback";
     }

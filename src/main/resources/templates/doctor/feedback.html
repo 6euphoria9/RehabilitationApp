@@ -15,7 +15,7 @@
     <span th:text="${form.reps + '/' + assigned.reps + ' - reps' }" th:style="${assigned.reps > form.reps} ? 'color:red' : 'color:green'"></span><br>
     <span th:text="${form.comment}"></span><br>
 </span>
-<form th:method="POST" th:action="@{/doctor/feedback/{id}(id=${feedbackId.taskId})}">
+<form th:method="POST" th:action="@{/doctor/feedback/{id}(id=${feedId})}">
     <label for="grade"></label>
     <select id="grade" name="grade">
         <option>1</option>
