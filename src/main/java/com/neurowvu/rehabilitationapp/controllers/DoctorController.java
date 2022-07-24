@@ -1,10 +1,7 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
 import com.neurowvu.rehabilitationapp.dto.*;
-import com.neurowvu.rehabilitationapp.entity.Doctor;
-import com.neurowvu.rehabilitationapp.entity.Feedback;
-import com.neurowvu.rehabilitationapp.entity.Patient;
-import com.neurowvu.rehabilitationapp.entity.User;
+import com.neurowvu.rehabilitationapp.entity.*;
 import com.neurowvu.rehabilitationapp.mapper.*;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.*;
@@ -34,9 +31,10 @@ public class DoctorController {
     private final DoctorMailService doctorMailService;
     private final DoctorMailMapper doctorMailMapper;
     private final FeedbackService feedbackService;
+    private final GradeService gradeService;
 
     @Autowired
-    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, AssignmentMapper assignmentMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService, DoctorMailService doctorMailService, DoctorMailMapper doctorMailMapper, FeedbackService feedbackService) {
+    public DoctorController(DoctorService doctorService, PatientService patientService, PatientMapper patientMapper, DoctorMapper doctorMapper, AssignmentMapper assignmentMapper, TaskMapper taskMapper, TaskService taskService, PrescriptionService prescriptionService, DoctorMailService doctorMailService, DoctorMailMapper doctorMailMapper, FeedbackService feedbackService, GradeService gradeService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
         this.patientMapper = patientMapper;
@@ -48,6 +46,7 @@ public class DoctorController {
         this.doctorMailService = doctorMailService;
         this.doctorMailMapper = doctorMailMapper;
         this.feedbackService = feedbackService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping("/cabinet")
@@ -132,8 +131,24 @@ public class DoctorController {
         PatientDTO patientDTO = patientMapper.mapToPatientDTO(patientService.getById(form.getPatientId()));
         model.addAttribute("patient", patientDTO);
 
+        Container feedbackId = new Container();
+        feedbackId.setTaskId(id);
+        model.addAttribute("feedbackId", feedbackId);
 
+//        Grade grade = new Grade();
+//        model.addAttribute("grade", grade);
 
         return "doctor/feedback";
     }
+
+    @PostMapping("/feedback/{id}")
+    public String sendFeedback(@PathVariable("id") Long id, @RequestParam("grade") Short grade){
+        System.out.println("Grade for patient: " + grade);
+
+        Feedback feedback = feedbackService.getById(id);
+        gradeService.addGradeToDB(feedback, grade);
+
+        return "redirect:/doctor/cabinet";
+    }
+
 }

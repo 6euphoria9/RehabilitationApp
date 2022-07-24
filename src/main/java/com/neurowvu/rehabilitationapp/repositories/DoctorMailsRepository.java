@@ -11,4 +11,6 @@ public interface DoctorMailsRepository extends JpaRepository<DoctorMail, Integer
 
     Optional<List<DoctorMail>> findAllByDoctor_Id(Long id);
 
+    void deleteDoctorMailByFeedback_id(Long id);
+
 }
