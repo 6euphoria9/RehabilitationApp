@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS feedback
     task_id     BIGINT NOT NULL,
     metric_id   BIGINT NOT NULL,
     prescription_id BIGINT NOT NULL,
-    date        DATE NOT NULL,
+    date        TIMESTAMP NOT NULL,
     comment     VARCHAR(255),
     PRIMARY KEY (feedback_id),
     FOREIGN KEY (patient_id) REFERENCES patient (patient_id),
