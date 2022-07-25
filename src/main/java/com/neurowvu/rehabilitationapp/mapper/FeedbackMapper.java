@@ -1,9 +1,7 @@
 package com.neurowvu.rehabilitationapp.mapper;
 
-import com.neurowvu.rehabilitationapp.entity.Feedback;
-import com.neurowvu.rehabilitationapp.entity.Grade;
-import com.neurowvu.rehabilitationapp.entity.Patient;
-import com.neurowvu.rehabilitationapp.entity.Prescription;
+import com.neurowvu.rehabilitationapp.dto.FeedbackDTO;
+import com.neurowvu.rehabilitationapp.entity.*;
 import com.neurowvu.rehabilitationapp.services.PatientService;
 import com.neurowvu.rehabilitationapp.services.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,28 @@ public class FeedbackMapper {
     }
 
     public Grade mapFeedbackToGrade(Feedback feedback) {
-
         return null;
+    }
+
+    public FeedbackDTO mapFeedbackToDTO(Feedback feedback) {
+        FeedbackDTO feedbackDTO = new FeedbackDTO();
+        feedbackDTO.setTaskName(feedback.getTask().getTaskDescription());
+
+        Metric assigned = feedback.getMetric();
+        Metric completed = feedback.getPrescription().getMetric();
+
+        feedbackDTO.setCompletedWeekly(completed.getWeekly());
+        feedbackDTO.setExpectedWeekly(assigned.getWeekly());
+
+        feedbackDTO.setCompletedDaily(completed.getDaily());
+        feedbackDTO.setExpectedDaily(assigned.getDaily());
+
+        feedbackDTO.setCompletedSets(completed.getSets());
+        feedbackDTO.setExpectedSets(assigned.getSets());
+
+        feedbackDTO.setCompletedReps(completed.getReps());
+        feedbackDTO.setExpectedReps(assigned.getReps());
+
+        return feedbackDTO;
     }
 }

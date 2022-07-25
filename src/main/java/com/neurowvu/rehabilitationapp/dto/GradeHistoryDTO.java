@@ -12,5 +12,6 @@ public class GradeHistoryDTO {
     private LocalDateTime date;
     private String name;
     private Short grade;
+    private Long feedBackId;
 
 }

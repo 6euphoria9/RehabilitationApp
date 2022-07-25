@@ -13,6 +13,7 @@ public class GradeHistoryMapper {
         return new GradeHistoryDTO()
                 .setDate(feedback.getDate())
                 .setName(feedback.getPrescription().getTask().getTaskDescription())
+                .setFeedBackId(feedback.getId())
                 .setGrade(grade.getGrade());
     }
 

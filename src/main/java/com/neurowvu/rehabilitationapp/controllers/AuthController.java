@@ -51,6 +51,11 @@ public class AuthController {
 //        return "success";
 //    }
 
+    @GetMapping("/diagram")
+    public String dia(){
+        return "diagram";
+    }
+
     @GetMapping("/success")
     public String successRedirect() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

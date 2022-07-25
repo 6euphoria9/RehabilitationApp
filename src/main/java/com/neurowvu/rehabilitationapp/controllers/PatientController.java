@@ -1,16 +1,10 @@
 package com.neurowvu.rehabilitationapp.controllers;
 
-import com.neurowvu.rehabilitationapp.dto.AssignmentDTO;
-import com.neurowvu.rehabilitationapp.dto.DoctorDTO;
-import com.neurowvu.rehabilitationapp.dto.GradeHistoryDTO;
-import com.neurowvu.rehabilitationapp.dto.PatientDTO;
+import com.neurowvu.rehabilitationapp.dto.*;
 import com.neurowvu.rehabilitationapp.entity.Feedback;
 import com.neurowvu.rehabilitationapp.entity.Prescription;
 import com.neurowvu.rehabilitationapp.entity.User;
-import com.neurowvu.rehabilitationapp.mapper.AssignmentMapper;
-import com.neurowvu.rehabilitationapp.mapper.DoctorMapper;
-import com.neurowvu.rehabilitationapp.mapper.GradeHistoryMapper;
-import com.neurowvu.rehabilitationapp.mapper.PatientMapper;
+import com.neurowvu.rehabilitationapp.mapper.*;
 import com.neurowvu.rehabilitationapp.security.SecurityUser;
 import com.neurowvu.rehabilitationapp.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +28,7 @@ public class PatientController {
     private final PatientMailService patientMailService;
     private final DoctorMailService doctorMailService;
     private final PrescriptionService prescriptionService;
-
+    private final FeedbackMapper feedbackMapper;
     private final FeedbackService feedbackService;
     private final GradeService gradeService;
     private final GradeHistoryMapper gradeHistoryMapper;
@@ -43,7 +37,7 @@ public class PatientController {
     @Autowired
     public PatientController(AssignmentMapper assignmentMapper, PatientMapper patientMapper, DoctorMapper doctorMapper,
                              PatientMailService patientMailService, DoctorMailService doctorMailService,
-                             PrescriptionService prescriptionService, FeedbackService feedbackService, GradeService gradeService,
+                             PrescriptionService prescriptionService, FeedbackMapper feedbackMapper, FeedbackService feedbackService, GradeService gradeService,
                              GradeHistoryMapper gradeHistoryMapper) {
         this.assignmentMapper = assignmentMapper;
         this.patientMapper = patientMapper;
@@ -51,6 +45,7 @@ public class PatientController {
         this.patientMailService = patientMailService;
         this.doctorMailService = doctorMailService;
         this.prescriptionService = prescriptionService;
+        this.feedbackMapper = feedbackMapper;
         this.feedbackService = feedbackService;
         this.gradeService = gradeService;
         this.gradeHistoryMapper = gradeHistoryMapper;
@@ -188,9 +183,17 @@ public class PatientController {
 
         historyDTOList.sort(Comparator.comparing(GradeHistoryDTO::getDate));
 
-        model.addAttribute("history", historyDTOList);
+        model.addAttribute("histor", historyDTOList);
 
         return "patient/gradeHistory";
+    }
+
+    @GetMapping("/analyze/{id}")
+    public String analyzing(@PathVariable("id") Long id, Model model) {
+        FeedbackDTO feedback = feedbackMapper.mapFeedbackToDTO(feedbackService.getById(id));
+        model.addAttribute("feedback", feedback);
+
+        return "/patient/diagram";
     }
 
 }

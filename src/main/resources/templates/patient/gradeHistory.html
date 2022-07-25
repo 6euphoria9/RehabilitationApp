@@ -15,10 +15,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="hs : ${history}">
+        <tr th:each="hs : ${histor}">
             <td th:text="${#temporals.format(hs.date, 'dd.MM.yyyy HH:mm:ss')}"></td>
             <td th:text="${hs.name}"></td>
             <td th:text="${hs.grade}"></td>
+            <td><a th:href="@{analyze/{id}(id=${hs.feedBackId})}" th:text="Analyze"></a></td>
         </tr>
         </tbody>
     </table>
