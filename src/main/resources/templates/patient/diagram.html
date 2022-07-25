@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://www.google.com/jsapi"></script>
+    <script th:inline="javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+
+            var xxx = [
+                ['task', 'expected', 'made']
+            ];
+
+            xxx.push(['Weekly', [[${feedback.expectedWeekly}]], [[${feedback.completedWeekly}]]],
+                ['Daily', [[${feedback.expectedDaily}]], [[${feedback.completedDaily}]]],
+                ['Sets', [[${feedback.expectedSets}]], [[${feedback.completedSets}]]],
+                ['Reps', [[${feedback.expectedReps}]], [[${feedback.completedReps}]]]
+            );
+
+            var data = google.visualization.arrayToDataTable(xxx);
+
+            var options = {
+                title: 'Patient success',
+                hAxis: {title: 'Metric'},
+                vAxis: {title: 'Success'}
+            };
+            options.title = [[${feedback.taskName}]];
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('oil'));
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+<div id="oil" style="width: 500px; height: 400px;"></div>
+</body>
+</html>
