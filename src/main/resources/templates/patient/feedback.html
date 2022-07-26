@@ -9,11 +9,11 @@
 <br>
 <br>
 <h3 th:text="${form.taskName}"></h3><br>
-<p>Did everything was okay?</p>
+<p>How was your experience today?</p>
 <form th:object="${feedback}" th:method="POST" th:action="@{send}">
 
-    <label for="weekly"></label>
-    <input id="weekly" th:field="*{weekly}" type="text" th:placeholder="${'Needed count per week: ' + form.weekly}"><br>
+<!--    <label for="weekly"></label>-->
+<!--    <input id="weekly" th:field="*{weekly}" type="text" th:placeholder="${'Needed count per week: ' + form.weekly}"><br>-->
 
     <label for="daily"></label>
     <input id="daily" th:field="*{daily}" type="text" th:placeholder="${'Needed times per day: ' + form.daily}"><br>

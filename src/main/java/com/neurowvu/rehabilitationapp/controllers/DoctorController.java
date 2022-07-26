@@ -56,8 +56,7 @@ public class DoctorController {
         User user = personDetails.getUser();
 
         Doctor doctor = user.getDoctor();
-        model.addAttribute("doctor_name",
-                doctor.getFirstName() + " " + doctor.getLastName());
+        model.addAttribute("doctor_name", doctor.getLastName());
 
         Boolean isThereMessage = doctorMailService.isThereAMessage(doctor.getId());
         model.addAttribute("isThereMessage", isThereMessage);

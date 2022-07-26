@@ -12,11 +12,11 @@
     <form class="form-signin" method="post" th:action="@{/doctor/cabinet/workshop}" th:object="${form}">
 
         <div class="form-group">
-            <label>Write description of task</label>
+            <label>Write a name(description) of the task</label>
             <input type="text" th:field="*{description}" class="form-control">
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
     </form>
 
 </div>
